@@ -58,6 +58,15 @@ bool PID::Compute()
       if(ITerm > outMax) ITerm= outMax;
       else if(ITerm < outMin) ITerm= outMin;
       double dInput = (input - lastInput);
+       
+      /*Account for closest distance to goal*/
+       if (error > 180) {
+           error = error -= 360;
+       } else if (error < -180) {
+           error += 360;
+       } else {
+           error = error;
+       }
  
       /*Compute PID Output*/
       double output = kp * error + ITerm- kd * dInput;
